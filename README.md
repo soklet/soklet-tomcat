@@ -2,7 +2,7 @@
 
 #### What Is It?
 
-[Tomcat](http://tomcat.apache.org) integration for [Tomcat](http://soklet.com), a minimalist infrastructure for Java webapps and microservices.
+[Tomcat](http://tomcat.apache.org) integration for [Soklet](http://soklet.com), a minimalist infrastructure for Java webapps and microservices.
 
 **Note:** Soklet is under active development and will be ready for production use soon.
 
