@@ -22,8 +22,10 @@
 
 #### Direct Download
 
-Coming soon, will coincide with 1.0.0 release
-<!-- [https://www.soklet.com/releases/soklet-1.0.0.jar](https://www.soklet.com/releases/soklet-1.0.0.jar) -->
+Coming soon
+<!--
+If you don't use Maven, you can drop [soklet-tomcat-1.0.0.jar](http://central.maven.org/maven2/com/soklet/soklet-tomcat/1.0.0/soklet-tomcat-1.0.0.jar) directly into your project.  You'll also need [Tomcat](http://tomcat.apache.org) as a dependency. -->
+
 ## Example Code
 
 ```java
