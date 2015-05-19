@@ -4,7 +4,7 @@
 
 [Tomcat](http://tomcat.apache.org) integration for [Soklet](http://soklet.com), a minimalist infrastructure for Java webapps and microservices.
 
-**Note:** Soklet is under active development and will be ready for production use soon.
+**Note:** Soklet Tomcat is under active development and will be ready for production use soon.
 
 #### License
 
@@ -16,7 +16,7 @@
 <dependency>
   <groupId>com.soklet</groupId>
   <artifactId>soklet-tomcat</artifactId>
-  <version>0.1.0</version>
+  <version>0.1.0-SNAPSHOT</version>
 </dependency>
 ```
 
