@@ -33,7 +33,6 @@ If you don't use Maven, you can drop [soklet-tomcat-1.0.0.jar](http://central.ma
 public static void main(String[] args) throws Exception {
   Injector injector = createInjector(Modules.override(new SokletModule()).with(new AppModule()));
   Server server = injector.getInstance(Server.class);
-  server.start();
   
   // Start the server
   new ServerLauncher(server).launch(StoppingStrategy.ON_KEYPRESS, () -> {
