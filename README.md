@@ -34,8 +34,11 @@ public static void main(String[] args) throws Exception {
   Injector injector = createInjector(Modules.override(new SokletModule()).with(new AppModule()));
   Server server = injector.getInstance(Server.class);
   server.start();
-  System.in.read(); // Wait for keypress
-  server.stop();
+  
+  // Start the server
+  new ServerLauncher(server).launch(StoppingStrategy.ON_KEYPRESS, () -> {
+    // Some custom on-server-shutdown code here, if needed
+  });
 }
 
 class AppModule extends AbstractModule {
@@ -48,3 +51,7 @@ class AppModule extends AbstractModule {
   }
 }
 ```
+
+## About
+
+Soklet Tomcat was created by [Mark Allen](http://revetkn.com) and sponsored by [Transmogrify, LLC.](http://xmog.com)

@@ -39,36 +39,55 @@ import com.soklet.web.server.ServerException;
 public class TomcatServer implements Server {
   private final Tomcat tomcat;
   private final InstanceProvider instanceProvider;
+  private boolean running;
+  private final Object lifecycleLock = new Object();
 
   public TomcatServer(InstanceProvider instanceProvider) {
     this.instanceProvider = requireNonNull(instanceProvider);
     this.tomcat = new Tomcat();
   }
 
+  @Override
   public void start() throws ServerException {
-    try {
-      tomcat.setPort(8080);
-      tomcat.setHostname("0.0.0.0");
+    synchronized (lifecycleLock) {
+      if (isRunning())
+        throw new ServerException("Server is already running");
+      try {
+        tomcat.setPort(8080);
+        tomcat.setHostname("0.0.0.0");
 
-      Context context = tomcat.addWebapp("", Paths.get(".").toAbsolutePath().toString());
+        Context context = tomcat.addWebapp("", Paths.get(".").toAbsolutePath().toString());
 
-      Tomcat.addServlet(context, "soklet-default", instanceProvider.provide(DefaultServlet.class));
-      context.addServletMapping("/static/*", "soklet-default");
+        Tomcat.addServlet(context, "soklet-default", instanceProvider.provide(DefaultServlet.class));
+        context.addServletMapping("/static/*", "soklet-default");
 
-      Tomcat.addServlet(context, "routing", instanceProvider.provide(RoutingServlet.class));
-      context.addServletMapping("/*", "routing");
+        Tomcat.addServlet(context, "routing", instanceProvider.provide(RoutingServlet.class));
+        context.addServletMapping("/*", "routing");
 
-      tomcat.start();
-    } catch (Exception e) {
-      throw new ServerException(e);
+        tomcat.start();
+      } catch (Exception e) {
+        throw new ServerException(e);
+      }
     }
   }
 
+  @Override
   public void stop() throws ServerException {
-    try {
-      tomcat.stop();
-    } catch (LifecycleException e) {
-      throw new ServerException(e);
+    synchronized (lifecycleLock) {
+      if (!isRunning())
+        throw new ServerException("Server is already stopped");
+      try {
+        tomcat.stop();
+      } catch (LifecycleException e) {
+        throw new ServerException(e);
+      }
+    }
+  }
+
+  @Override
+  public boolean isRunning() {
+    synchronized (lifecycleLock) {
+      return this.running;
     }
   }
 }
